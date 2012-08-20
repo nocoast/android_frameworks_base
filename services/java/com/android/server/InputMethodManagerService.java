@@ -400,7 +400,7 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.SELECTED_INPUT_METHOD_SUBTYPE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.STATUS_BAR_IME_SWITCHER),
+                    Settings.System.SHOW_STATUSBAR_IME_SWITCHER),
                     false, new ContentObserver(mHandler) {
                         public void onChange(boolean selfChange) {
                             updateFromSettingsLocked();
@@ -1611,8 +1611,10 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
             mCurMethodId = null;
             unbindCurrentMethodLocked(true, false);
         }
-        mShowOngoingImeSwitcherForPhones = Settings.System.getInt(mContext.getContentResolver(),
-               Settings.System.STATUS_BAR_IME_SWITCHER, 1) == 1;
+
+        mShowOngoingImeSwitcherForPhones = Settings.System.getBoolean(mContext.getContentResolver(),
+                Settings.System.SHOW_STATUSBAR_IME_SWITCHER, true);
+
     }
 
     /* package */ void setInputMethodLocked(String id, int subtypeId) {
